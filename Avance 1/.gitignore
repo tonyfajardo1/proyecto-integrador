@@ -1,0 +1,39 @@
+# Mage AI
+mage_condimensa/condimensa_project/.cache/
+mage_condimensa/condimensa_project/.file_versions/
+mage_condimensa/condimensa_project/mage-ai.db
+mage_condimensa/condimensa_project/**/.variables/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Entornos virtuales
+venv/
+env/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Datos
+*.parquet
+*.csv
+*.xlsx
+
+# Docker
+mage_condimensa/.env
+
+# Archivos temporales
+*.log
+*.tmp
