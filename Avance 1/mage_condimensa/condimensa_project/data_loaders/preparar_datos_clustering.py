@@ -19,36 +19,30 @@ if 'test' not in dir():
 @data_loader
 def preparar_datos_clustering(*args, **kwargs):
     """
-    Carga y agrega datos por producto para clustering.
+    Carga datos desde Silver (ya limpios) para clustering.
     Crea perfil de cada producto basado en ventas, devoluciones, rentabilidad.
     """
 
-    query = """SELECT * FROM kronos.ventas_general_4"""
+    # Usar Silver layer del DWH local (datos ya limpios y transformados)
+    query = """SELECT * FROM silver.kronos_ventas"""
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
-    config_profile = 'kronos'
+    config_profile = 'local_dwh'
 
     with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
-        df_raw = loader.load(query)
+        df = loader.load(query)
 
-    # Limpiar datos
-    df = df_raw.iloc[7:].copy()
-    df.columns = ['centro_costo', 'codigo_producto', 'codigo_alterno', 'producto',
-                  'cant_venta', 'total_venta', 'cant_nc', 'total_nc',
-                  'cant_devolucion', 'total_devolucion', 'cant_neto', 'total_neto',
-                  'costo_venta', 'rentabilidad', 'prc_rentabilidad', 'mes']
+    print(f"[INFO] Datos cargados desde Silver: {len(df)} registros")
 
-    df = df.reset_index(drop=True)
-    df = df[df['centro_costo'].notna()]
-    df = df[~df['centro_costo'].str.contains('CENTRO_COSTO|Total', na=False, case=False)]
-
-    # Convertir numericos
+    # Convertir numericos (por si acaso)
     cols_num = ['cant_venta', 'total_venta', 'cant_devolucion', 'total_devolucion',
                 'cant_neto', 'total_neto', 'costo_venta', 'rentabilidad']
     for col in cols_num:
-        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
 
-    df['producto'] = df['producto'].str.strip()
+    if 'producto' in df.columns:
+        df['producto'] = df['producto'].astype(str).str.strip()
 
     # =========================================================================
     # AGREGAR POR PRODUCTO - Perfil para clustering

@@ -1,6 +1,7 @@
 """
-Data Exporter: Guardar resultados de deteccion de anomalias
+Data Exporter: Guardar anomalias detectadas en Capa Gold
 Pipeline: dm_deteccion_anomalias
+Guarda resultados en gold.anomalias_agencias
 """
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
@@ -17,10 +18,10 @@ if 'test' not in dir():
 @data_exporter
 def export_to_postgres(df: DataFrame, *args, **kwargs) -> None:
     """
-    Exporta los resultados de deteccion de anomalias al DWH.
+    Exporta resultados de deteccion de anomalias a la capa Gold.
     """
-    schema_name = 'public'
-    table_name = 'dm_anomalias_agencias'
+    schema_name = 'gold'
+    table_name = 'anomalias_agencias'
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'local_dwh'

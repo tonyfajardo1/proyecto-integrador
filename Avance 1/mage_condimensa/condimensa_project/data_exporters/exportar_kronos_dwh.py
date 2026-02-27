@@ -1,6 +1,7 @@
 """
-Data Exporter: Guardar resultados de Kronos en Data Warehouse local
-Pipeline: analisis_kronos_ventas
+Data Exporter: Guardar datos de Kronos en Capa Bronze
+Pipeline: etl_bronze
+Guarda datos crudos en bronze.kronos_ventas_raw
 """
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
@@ -17,11 +18,11 @@ if 'test' not in dir():
 @data_exporter
 def export_to_postgres(df: DataFrame, *args, **kwargs) -> None:
     """
-    Exporta los resultados del analisis de Kronos al Data Warehouse local.
+    Exporta datos crudos de Kronos a la capa Bronze.
     """
 
-    schema_name = 'public'
-    table_name = 'kronos_ventas_analisis'
+    schema_name = 'bronze'
+    table_name = 'kronos_ventas_raw'
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'local_dwh'

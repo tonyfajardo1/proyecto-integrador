@@ -1,6 +1,7 @@
 """
-Data Exporter: Guardar clusters en DWH
+Data Exporter: Guardar clusters de productos en Capa Gold
 Pipeline: dm_clustering_segmentacion
+Guarda resultados en gold.clusters_productos
 """
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
@@ -17,10 +18,10 @@ if 'test' not in dir():
 @data_exporter
 def export_to_postgres(df: DataFrame, *args, **kwargs) -> None:
     """
-    Exporta los clusters de productos al DWH.
+    Exporta clusters de productos a la capa Gold.
     """
-    schema_name = 'public'
-    table_name = 'dm_clusters_productos'
+    schema_name = 'gold'
+    table_name = 'clusters_productos'
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'local_dwh'

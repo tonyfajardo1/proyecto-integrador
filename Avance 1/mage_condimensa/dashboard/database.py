@@ -29,16 +29,41 @@ def test_connection() -> bool:
         return False
 
 
-# Queries predefinidas
+# Queries predefinidas - CONSULTAS A CAPA GOLD
+# gold.kpis_ventas columns: centro_costo, producto, mes, cant_venta, total_venta, 
+# cant_neto, total_neto, cant_devolucion, total_devolucion, tasa_devolucion_cant, 
+# tasa_devolucion_valor, rentabilidad, prc_rentabilidad, margen_bruto
 QUERIES = {
-    'kpi_ventas': "SELECT * FROM gold.kpi_ventas_comercial",
-    'alertas': "SELECT * FROM gold.alertas_tempranas ORDER BY anomaly_score DESC",
-    'alertas_activas': "SELECT * FROM gold.alertas_tempranas WHERE activa = true",
-    'combinaciones': "SELECT * FROM gold.combinaciones_ineficientes ORDER BY score_ineficiencia DESC",
-    'plan_vs_real': "SELECT * FROM gold.analisis_plan_vs_real",
-    'evolucion': "SELECT * FROM gold.evolucion_temporal",
-    'clusters_productos': "SELECT * FROM dm_clusters_productos",
-    'anomalias_agencias': "SELECT * FROM dm_anomalias_agencias"
+    'kpi_ventas': """
+        SELECT 
+            centro_costo,
+            producto,
+            mes,
+            cant_venta,
+            total_venta,
+            cant_neto,
+            total_neto,
+            cant_devolucion,
+            total_devolucion,
+            tasa_devolucion_cant as tasa_devolucion,
+            tasa_devolucion_valor,
+            rentabilidad,
+            prc_rentabilidad,
+            margen_bruto,
+            nivel_devolucion,
+            nivel_rentabilidad
+        FROM gold.kpis_ventas
+        ORDER BY total_venta DESC
+    """,
+    'alertas': "SELECT * FROM gold.anomalias_agencias ORDER BY anomaly_score ASC",
+    'alertas_activas': "SELECT * FROM gold.anomalias_agencias WHERE es_anomalia = true ORDER BY anomaly_score ASC",
+    'combinaciones': "SELECT * FROM gold.reglas_asociacion ORDER BY lift DESC LIMIT 50",
+    'plan_vs_real': "SELECT * FROM gold.kpis_produccion",
+    'evolucion': "SELECT * FROM silver.kronos_ventas ORDER BY fecha_carga DESC",
+    'clusters_productos': "SELECT * FROM gold.clusters_productos ORDER BY cluster, total_ventas DESC",
+    'anomalias_agencias': "SELECT * FROM gold.anomalias_agencias ORDER BY anomaly_score ASC",
+    'metricas_agencias': "SELECT * FROM gold.metricas_agencias ORDER BY total_venta DESC",
+    'metricas_productos': "SELECT * FROM gold.metricas_productos ORDER BY total_venta DESC"
 }
 
 
@@ -69,3 +94,11 @@ def get_clusters_productos() -> pd.DataFrame:
 
 def get_anomalias_agencias() -> pd.DataFrame:
     return load_data(QUERIES['anomalias_agencias'])
+
+
+def get_metricas_agencias() -> pd.DataFrame:
+    return load_data(QUERIES['metricas_agencias'])
+
+
+def get_metricas_productos() -> pd.DataFrame:
+    return load_data(QUERIES['metricas_productos'])

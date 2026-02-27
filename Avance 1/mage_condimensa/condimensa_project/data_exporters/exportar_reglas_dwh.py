@@ -1,6 +1,7 @@
 """
-Data Exporter: Guardar reglas de asociacion en DWH
+Data Exporter: Guardar reglas de asociacion en Capa Gold
 Pipeline: dm_reglas_asociacion
+Guarda resultados en gold.reglas_asociacion
 """
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
@@ -17,10 +18,10 @@ if 'test' not in dir():
 @data_exporter
 def export_to_postgres(df: DataFrame, *args, **kwargs) -> None:
     """
-    Exporta las reglas de asociacion al DWH.
+    Exporta reglas de asociacion a la capa Gold.
     """
-    schema_name = 'public'
-    table_name = 'dm_reglas_asociacion'
+    schema_name = 'gold'
+    table_name = 'reglas_asociacion'
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'local_dwh'

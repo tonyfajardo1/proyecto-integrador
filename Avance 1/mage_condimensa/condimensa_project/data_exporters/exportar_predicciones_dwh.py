@@ -1,6 +1,7 @@
 """
-Data Exporter: Guardar predicciones en DWH
+Data Exporter: Guardar predicciones en Capa Gold
 Pipeline: dm_prediccion_devoluciones
+Guarda resultados en gold.predicciones_devolucion
 """
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
@@ -17,10 +18,10 @@ if 'test' not in dir():
 @data_exporter
 def export_to_postgres(df: DataFrame, *args, **kwargs) -> None:
     """
-    Exporta las predicciones al DWH.
+    Exporta predicciones de devolucion a la capa Gold.
     """
-    schema_name = 'public'
-    table_name = 'dm_predicciones_devoluciones'
+    schema_name = 'gold'
+    table_name = 'predicciones_devolucion'
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'local_dwh'

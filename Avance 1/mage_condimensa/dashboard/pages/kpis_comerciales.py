@@ -27,16 +27,16 @@ def render():
                     options=sorted(df['centro_costo'].unique())
                 )
             with col2:
-                marcas = st.multiselect(
-                    "Marca",
-                    options=sorted(df['marca'].unique())
+                productos = st.multiselect(
+                    "Producto",
+                    options=sorted(df['producto'].dropna().unique())
                 )
 
         df_filtrado = df.copy()
         if agencias:
             df_filtrado = df_filtrado[df_filtrado['centro_costo'].isin(agencias)]
-        if marcas:
-            df_filtrado = df_filtrado[df_filtrado['marca'].isin(marcas)]
+        if productos:
+            df_filtrado = df_filtrado[df_filtrado['producto'].isin(productos)]
 
         st.markdown("---")
 
@@ -90,8 +90,8 @@ def render():
             st.plotly_chart(fig, use_container_width=True)
 
         with col2:
-            st.subheader("Cumplimiento por Marca (Top 10)")
-            df_marca = df_filtrado.groupby('marca').agg({
+            st.subheader("Cumplimiento por Producto (Top 10)")
+            df_marca = df_filtrado.groupby('producto').agg({
                 'total_venta': 'sum',
                 'cumplimiento_meta': 'mean'
             }).nlargest(10, 'total_venta').reset_index()
@@ -155,7 +155,7 @@ def render():
         st.subheader("Tabla Detallada de KPIs")
         render_data_table(
             df_filtrado,
-            columns=['centro_costo', 'marca', 'total_venta', 'total_neto',
+            columns=['centro_costo', 'producto', 'mes', 'total_venta', 'total_neto',
                     'rentabilidad', 'tasa_devolucion', 'cumplimiento_meta']
         )
 

@@ -19,37 +19,33 @@ if 'test' not in dir():
 @data_loader
 def preparar_datos_asociacion(*args, **kwargs):
     """
-    Carga datos de Kronos y prepara matriz para analisis de asociacion.
+    Carga datos desde Silver (ya limpios) para analisis de asociacion.
     Cada fila = una transaccion (agencia-producto-mes)
     Columnas = caracteristicas binarias para Apriori
     """
 
-    query = """SELECT * FROM kronos.ventas_general_4"""
+    # Usar Silver layer del DWH local (datos ya limpios y transformados)
+    query = """SELECT * FROM silver.kronos_ventas"""
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
-    config_profile = 'kronos'
+    config_profile = 'local_dwh'
 
     with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
-        df_raw = loader.load(query)
+        df = loader.load(query)
 
-    # Limpiar datos
-    df = df_raw.iloc[7:].copy()
-    df.columns = ['centro_costo', 'codigo_producto', 'codigo_alterno', 'producto',
-                  'cant_venta', 'total_venta', 'cant_nc', 'total_nc',
-                  'cant_devolucion', 'total_devolucion', 'cant_neto', 'total_neto',
-                  'costo_venta', 'rentabilidad', 'prc_rentabilidad', 'mes']
+    print(f"[INFO] Datos cargados desde Silver: {len(df)} registros")
 
-    df = df.reset_index(drop=True)
-    df = df[df['centro_costo'].notna()]
-    df = df[~df['centro_costo'].str.contains('CENTRO_COSTO|Total', na=False, case=False)]
-
-    # Convertir numericos
+    # Convertir numericos (por si acaso)
     for col in ['cant_venta', 'total_venta', 'cant_devolucion', 'total_devolucion', 'rentabilidad']:
-        df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
 
-    df['centro_costo'] = df['centro_costo'].str.strip().str.lower()
-    df['producto'] = df['producto'].str.strip()
-    df['mes'] = df['mes'].str.strip().str.upper()
+    if 'centro_costo' in df.columns:
+        df['centro_costo'] = df['centro_costo'].astype(str).str.strip().str.lower()
+    if 'producto' in df.columns:
+        df['producto'] = df['producto'].astype(str).str.strip()
+    if 'mes' in df.columns:
+        df['mes'] = df['mes'].astype(str).str.strip().str.upper()
 
     # =========================================================================
     # CREAR FEATURES BINARIOS PARA APRIORI

@@ -10,12 +10,12 @@ blocks:
   language: python
   name: preparar_datos_asociacion
   retry_config: null
-  status: not_executed
+  status: executed
+  timeout: null
   type: data_loader
   upstream_blocks: []
   uuid: preparar_datos_asociacion
-
-- all_upstream_blocks_executed: false
+- all_upstream_blocks_executed: true
   color: null
   configuration: {}
   downstream_blocks:
@@ -26,13 +26,13 @@ blocks:
   language: python
   name: generar_reglas_apriori
   retry_config: null
-  status: not_executed
+  status: executed
+  timeout: null
   type: transformer
   upstream_blocks:
   - preparar_datos_asociacion
   uuid: generar_reglas_apriori
-
-- all_upstream_blocks_executed: false
+- all_upstream_blocks_executed: true
   color: null
   configuration: {}
   downstream_blocks: []
@@ -42,19 +42,20 @@ blocks:
   language: python
   name: exportar_reglas_dwh
   retry_config: null
-  status: not_executed
+  status: executed
+  timeout: null
   type: data_exporter
   upstream_blocks:
   - generar_reglas_apriori
   uuid: exportar_reglas_dwh
-
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
 conditionals: []
 created_at: '2026-02-20 23:35:00'
 data_integration: null
-description: 'Data Mining: Reglas de asociacion con Apriori. Encuentra patrones producto-agencia asociados a devoluciones.'
+description: 'Data Mining: Reglas de asociacion con Apriori. Encuentra patrones producto-agencia
+  asociados a devoluciones.'
 executor_config: {}
 executor_count: 1
 executor_type: null
@@ -73,5 +74,5 @@ tags:
 - asociacion
 type: python
 uuid: dm_reglas_asociacion
-variables_dir: /home/src/condimensa_project/pipelines/dm_reglas_asociacion
+variables_dir: /home/src/condimensa_project
 widgets: []

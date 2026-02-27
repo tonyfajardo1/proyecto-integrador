@@ -1,6 +1,7 @@
 """
-Data Exporter: Guardar resultados de analisis en Data Warehouse local
-Pipeline: analisis_produccion_desviaciones
+Data Exporter: Guardar KPIs de produccion en Capa Gold
+Pipeline: etl_gold
+Guarda desviaciones Plan vs Real en gold.kpis_produccion
 """
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
@@ -17,12 +18,11 @@ if 'test' not in dir():
 @data_exporter
 def export_to_postgres(df: DataFrame, *args, **kwargs) -> None:
     """
-    Exporta los resultados del analisis de desviaciones al Data Warehouse local.
-    Crea la tabla si no existe, o reemplaza los datos si existe.
+    Exporta KPIs de produccion (desviaciones Plan vs Real) a la capa Gold.
     """
 
-    schema_name = 'public'
-    table_name = 'produccion_desviaciones'
+    schema_name = 'gold'
+    table_name = 'kpis_produccion'
 
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'local_dwh'
