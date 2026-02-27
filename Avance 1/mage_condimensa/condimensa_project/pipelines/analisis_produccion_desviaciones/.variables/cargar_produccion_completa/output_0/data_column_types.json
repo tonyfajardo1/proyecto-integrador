@@ -1,0 +1,1 @@
+{"idsales": "int64", "idsale": "str", "fecha": "str", "estado": "str", "numero": "str", "cliente": "str", "items_planificados": "int64", "items_procesados": "int64", "items_pendientes": "int64", "qty_total_planificada": "float64", "qty_total_despachada": "int64", "num_lineas": "int64"}

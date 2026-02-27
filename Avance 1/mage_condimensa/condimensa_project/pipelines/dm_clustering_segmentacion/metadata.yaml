@@ -1,0 +1,78 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - aplicar_clustering_kmeans
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: preparar_datos_clustering
+  retry_config: null
+  status: not_executed
+  type: data_loader
+  upstream_blocks: []
+  uuid: preparar_datos_clustering
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - exportar_clusters_dwh
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: aplicar_clustering_kmeans
+  retry_config: null
+  status: not_executed
+  type: transformer
+  upstream_blocks:
+  - preparar_datos_clustering
+  uuid: aplicar_clustering_kmeans
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: exportar_clusters_dwh
+  retry_config: null
+  status: not_executed
+  type: data_exporter
+  upstream_blocks:
+  - aplicar_clustering_kmeans
+  uuid: exportar_clusters_dwh
+
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2026-02-20 23:45:00'
+data_integration: null
+description: 'Data Mining: Clustering con K-Means. Segmenta productos por comportamiento de ventas y devoluciones.'
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: 07_DM_Clustering_Productos
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- data-mining
+- kmeans
+- clustering
+- segmentacion
+type: python
+uuid: dm_clustering_segmentacion
+variables_dir: /home/src/condimensa_project/pipelines/dm_clustering_segmentacion
+widgets: []

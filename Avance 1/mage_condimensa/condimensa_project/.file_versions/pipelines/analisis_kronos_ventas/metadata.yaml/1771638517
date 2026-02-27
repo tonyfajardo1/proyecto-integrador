@@ -1,0 +1,79 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - analizar_ventas_kronos
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: cargar_kronos_ventas
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_loader
+  upstream_blocks: []
+  uuid: cargar_kronos_ventas
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - exportar_kronos_dwh
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: analizar_ventas_kronos
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - cargar_kronos_ventas
+  uuid: analizar_ventas_kronos
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: exportar_kronos_dwh
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - analizar_ventas_kronos
+  uuid: exportar_kronos_dwh
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2026-02-20 22:45:00'
+data_integration: null
+description: Pipeline para analizar ventas de Kronos. Analiza devoluciones, rentabilidad
+  por agencia y patrones de ventas.
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: analisis_kronos_ventas
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- data-mining
+- kronos
+- ventas
+- devoluciones
+type: python
+uuid: analisis_kronos_ventas
+variables_dir: /home/src/condimensa_project
+widgets: []

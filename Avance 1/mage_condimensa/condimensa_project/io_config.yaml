@@ -1,0 +1,40 @@
+version: 0.1.1
+
+default:
+  # Configuración por defecto
+
+# ============================================================================
+# QUICKBOOKS - Supabase (Datos de producción, ventas, compras)
+# ============================================================================
+quickbooks:
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: postgres
+  POSTGRES_SCHEMA: quickbooks
+  POSTGRES_USER: postgres.your-quickbooks-project-ref
+  POSTGRES_PASSWORD: "{{ env_var('QUICKBOOKS_PASSWORD', 'REDACTED_SECRET') }}"
+  POSTGRES_HOST: your-quickbooks-host.supabase.com
+  POSTGRES_PORT: 6543
+
+# ============================================================================
+# KRONOS - Supabase (Datos comerciales, ventas generales)
+# ============================================================================
+kronos:
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: postgres
+  POSTGRES_SCHEMA: kronos
+  POSTGRES_USER: postgres.your-kronos-project-ref
+  POSTGRES_PASSWORD: "{{ env_var('KRONOS_PASSWORD', 'REDACTED_SECRET') }}"
+  POSTGRES_HOST: your-kronos-host.supabase.com
+  POSTGRES_PORT: 6543
+
+# ============================================================================
+# DATA WAREHOUSE LOCAL - Para almacenar resultados de Data Mining
+# ============================================================================
+local_dwh:
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: condimensa_analytics
+  POSTGRES_SCHEMA: public
+  POSTGRES_USER: condimensa
+  POSTGRES_PASSWORD: REDACTED_LOCAL_DB_PASSWORD
+  POSTGRES_HOST: postgres_local
+  POSTGRES_PORT: 5432

@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  mage:
+    image: mageai/mageai:latest
+    container_name: mage_condimensa
+    command: mage start condimensa_project
+    environment:
+      # Variables de entorno para conexiones
+      - MAGE_DATA_DIR=/home/src/condimensa_project
+      - USER_CODE_PATH=/home/src/condimensa_project
+
+      # QuickBooks Supabase
+      - QUICKBOOKS_HOST=your-quickbooks-host.supabase.com
+      - QUICKBOOKS_PORT=6543
+      - QUICKBOOKS_DB=postgres
+      - QUICKBOOKS_USER=postgres.your-quickbooks-project-ref
+      - QUICKBOOKS_PASSWORD=REDACTED_SECRET
+      - QUICKBOOKS_SCHEMA=quickbooks
+
+      # Kronos Supabase
+      - KRONOS_HOST=your-kronos-host.supabase.com
+      - KRONOS_PORT=6543
+      - KRONOS_DB=postgres
+      - KRONOS_USER=postgres.your-kronos-project-ref
+      - KRONOS_PASSWORD=REDACTED_SECRET
+      - KRONOS_SCHEMA=kronos
+
+    ports:
+      - "6789:6789"
+    volumes:
+      - ./condimensa_project:/home/src/condimensa_project
+    restart: unless-stopped
+
+  # PostgreSQL local para Data Warehouse (opcional - para almacenar resultados de Data Mining)
+  postgres_local:
+    image: postgres:15
+    container_name: condimensa_dwh
+    environment:
+      - POSTGRES_USER=condimensa
+      - POSTGRES_PASSWORD=REDACTED_LOCAL_DB_PASSWORD
+      - POSTGRES_DB=condimensa_analytics
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # pgAdmin para administrar PostgreSQL
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: condimensa_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@condimensa.com
+      - PGADMIN_DEFAULT_PASSWORD=REDACTED_PGADMIN_PASSWORD
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres_local
+    restart: unless-stopped
+
+  # Dashboard Streamlit
+  dashboard:
+    image: python:3.11-slim
+    container_name: condimensa_dashboard
+    working_dir: /app
+    command: bash -c "pip install -q streamlit pandas plotly psycopg2-binary && streamlit run app.py --server.port=8501 --server.address=0.0.0.0"
+    environment:
+      - DB_HOST=postgres_local
+      - DB_PORT=5432
+      - DB_NAME=condimensa_analytics
+      - DB_USER=condimensa
+      - DB_PASSWORD=REDACTED_LOCAL_DB_PASSWORD
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./dashboard:/app
+    depends_on:
+      - postgres_local
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  pgadmin_data:

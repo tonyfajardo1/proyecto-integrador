@@ -1,0 +1,10 @@
+triggers:
+  - name: trigger_semanal_prediccion
+    trigger_type: schedule
+    status: active
+    schedule_type: weekly
+    schedule_interval: "@weekly"
+    start_time: "2026-02-24T08:00:00"
+    settings:
+      skip_if_previous_running: true
+      allow_blocks_to_fail: false

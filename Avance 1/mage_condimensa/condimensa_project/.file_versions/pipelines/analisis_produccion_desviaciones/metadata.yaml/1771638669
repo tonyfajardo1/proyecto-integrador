@@ -1,0 +1,79 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - calcular_desviaciones
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: cargar_produccion_completa
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_loader
+  upstream_blocks: []
+  uuid: cargar_produccion_completa
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - exportar_resultados_dwh
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: calcular_desviaciones
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - cargar_produccion_completa
+  uuid: calcular_desviaciones
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: exportar_resultados_dwh
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - calcular_desviaciones
+  uuid: exportar_resultados_dwh
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2026-02-20 22:30:00'
+data_integration: null
+description: 'Pipeline para analizar desviaciones entre plan y real en ordenes de
+  produccion. Responde: Existen patrones de produccion que expliquen desviaciones
+  plan vs real?'
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: analisis_produccion_desviaciones
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- data-mining
+- produccion
+- desviaciones
+type: python
+uuid: analisis_produccion_desviaciones
+variables_dir: /home/src/condimensa_project
+widgets: []

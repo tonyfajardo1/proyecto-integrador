@@ -1,0 +1,10 @@
+triggers:
+  - name: trigger_diario_produccion
+    trigger_type: schedule
+    status: active
+    schedule_type: daily
+    schedule_interval: "@daily"
+    start_time: "2026-02-21T06:30:00"
+    settings:
+      skip_if_previous_running: true
+      allow_blocks_to_fail: false
