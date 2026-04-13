@@ -1,0 +1,98 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_path: dm/cargar_datos_comercial_kronos.py
+  downstream_blocks:
+  - analizar_rendimiento_comercial
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: cargar_datos_comercial_kronos
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_loader
+  upstream_blocks: []
+  uuid: cargar_datos_comercial_kronos
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    file_path: dm/analizar_rendimiento_comercial.py
+  downstream_blocks:
+  - exportar_analisis_comercial
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: analizar_rendimiento_comercial
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - cargar_datos_comercial_kronos
+  uuid: analizar_rendimiento_comercial
+
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    file_path: dm/exportar_analisis_comercial.py
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: exportar_analisis_comercial
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - analizar_rendimiento_comercial
+  uuid: exportar_analisis_comercial
+
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2026-03-01 12:00:00'
+data_integration: null
+description: >
+  Pipeline de Data Mining para analisis comercial de datos Kronos.
+
+  Analiza rendimiento por agencia, productos top, devoluciones y tendencias.
+
+  Tecnicas utilizadas:
+  - Agregaciones y KPIs por agencia/producto
+  - Analisis de Pareto (80/20)
+  - Rankings de rendimiento
+  - Analisis de devoluciones
+
+  Output:
+  - KPIs por agencia (ventas, rentabilidad, participacion)
+  - KPIs por producto (top sellers, margen, devoluciones)
+  - Tendencia mensual
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: dm_analisis_comercial_kronos
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- data_mining
+- comercial
+- kronos
+- kpis
+type: python
+uuid: dm_analisis_comercial_kronos
+variables_dir: /home/src/mage_data/condimensa_project
+widgets: []

@@ -1,0 +1,31 @@
+version: 0.1.1
+
+default:
+  # Default profile without credentials.
+
+quickbooks:
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: postgres
+  POSTGRES_SCHEMA: quickbooks
+  POSTGRES_USER: ""
+  POSTGRES_PASSWORD: ""
+  POSTGRES_HOST: ""
+  POSTGRES_PORT: 6543
+
+kronos:
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: postgres
+  POSTGRES_SCHEMA: public
+  POSTGRES_USER: ""
+  POSTGRES_PASSWORD: ""
+  POSTGRES_HOST: ""
+  POSTGRES_PORT: 6543
+
+local_dwh:
+  POSTGRES_CONNECT_TIMEOUT: 10
+  POSTGRES_DBNAME: condimensa_analytics
+  POSTGRES_SCHEMA: public
+  POSTGRES_USER: condimensa
+  POSTGRES_PASSWORD: ""
+  POSTGRES_HOST: postgres_local
+  POSTGRES_PORT: 5432

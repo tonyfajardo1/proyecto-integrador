@@ -1,0 +1,112 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - extraer_forecasting_v3_silver
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: crear_tablas_forecasting_v3_gold
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks: []
+  uuid: crear_tablas_forecasting_v3_gold
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - entrenar_forecasting_v3
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: extraer_forecasting_v3_silver
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_loader
+  upstream_blocks:
+  - crear_tablas_forecasting_v3_gold
+  uuid: extraer_forecasting_v3_silver
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - predecir_forecasting_v3
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: entrenar_forecasting_v3
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - extraer_forecasting_v3_silver
+  uuid: entrenar_forecasting_v3
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - cargar_forecasting_v3_gold
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: predecir_forecasting_v3
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - entrenar_forecasting_v3
+  uuid: predecir_forecasting_v3
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: cargar_forecasting_v3_gold
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - predecir_forecasting_v3
+  uuid: cargar_forecasting_v3_gold
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2026-04-12 20:00:00'
+data_integration: null
+description: 'Forecasting V3 QuickBooks: lee datasets curados desde Silver, entrena
+  modelos ML, genera predicciones PT/PP y publica resultados en Gold.'
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: Forecasting_V3_QuickBooks
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- forecasting
+- quickbooks
+- machine-learning
+type: python
+uuid: forecasting_v3_quickbooks
+variables_dir: /home/src/condimensa_project
+widgets: []

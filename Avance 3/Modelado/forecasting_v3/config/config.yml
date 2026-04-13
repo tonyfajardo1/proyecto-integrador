@@ -1,0 +1,73 @@
+project:
+  name: quickbooks-production-forecast
+
+paths:
+  raw_dir: Quickbooks
+  catalog_file: ean 13 ean 14 pvp.xlsx
+  sales_file: Ventas Econespecias.xlsx
+  production_file: PRODUCCION2025.xlsx
+  costs_file: Costos.xlsx
+  interim_dir: data/interim
+  processed_dir: data/processed
+  input_dir: data/input
+  models_dir: models
+  reports_dir: reports
+
+sheets:
+  catalog: Hoja1
+  sales: datos ventas 2023 - actualidad
+  production: Hoja1
+  costs: cost abr 25
+  pp_categories: Categorías
+
+dataset:
+  inactive_months: 12
+  forecast_horizon_months: 6
+  include_unmatched_pt: false
+  seasonal_top_3_month_share: 0.6
+  seasonal_max_active_months_per_year: 4
+
+exogenous:
+  enabled: true
+  calendar_file: variables_exogenas_calendario.csv
+  product_file: variables_exogenas_producto.csv
+
+model:
+  test_months: 3
+  validation_months: 3
+  forecast_model: best_ml_stable
+  selection_metric: wape
+  random_state: 42
+  max_iter: 250
+  learning_rate: 0.06
+  min_rows_to_train: 24
+  ridge_alpha: 1.0
+  sgd_alpha: 0.0001
+  sgd_max_iter: 3000
+  prediction_cap_multiplier: 3.0
+  random_forest:
+    n_estimators: 180
+    max_depth: 18
+    min_samples_leaf: 3
+    max_features: 1.0
+    n_jobs: -1
+  random_forest_conservative:
+    n_estimators: 180
+    max_depth: 14
+    min_samples_leaf: 10
+    max_features: 1.0
+    n_jobs: -1
+  extra_trees:
+    n_estimators: 180
+    max_depth: 18
+    min_samples_leaf: 3
+    max_features: 1.0
+    n_jobs: -1
+  hgb_tuning_candidates:
+    - {learning_rate: 0.03, max_iter: 250, max_leaf_nodes: 15, min_samples_leaf: 20, l2_regularization: 0.05}
+    - {learning_rate: 0.04, max_iter: 350, max_leaf_nodes: 31, min_samples_leaf: 20, l2_regularization: 0.05}
+    - {learning_rate: 0.06, max_iter: 250, max_leaf_nodes: 31, min_samples_leaf: 20, l2_regularization: 0.05}
+    - {learning_rate: 0.08, max_iter: 250, max_leaf_nodes: 31, min_samples_leaf: 30, l2_regularization: 0.10}
+    - {learning_rate: 0.10, max_iter: 200, max_leaf_nodes: 15, min_samples_leaf: 30, l2_regularization: 0.20}
+    - {learning_rate: 0.05, max_iter: 400, max_leaf_nodes: 63, min_samples_leaf: 20, l2_regularization: 0.05}
+    - {learning_rate: 0.03, max_iter: 500, max_leaf_nodes: 31, min_samples_leaf: 10, l2_regularization: 0.00}

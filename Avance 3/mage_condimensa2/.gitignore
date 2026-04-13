@@ -1,0 +1,32 @@
+.env
+__pycache__/
+*.pyc
+
+# Mage runtime files
+condimensa_project/mage-ai.db
+condimensa_project/**/mage-ai.db
+condimensa_project/.cache/
+condimensa_project/.file_versions/
+condimensa_project/.ssh_tunnel/
+condimensa_project/pipelines/**/.variables/
+condimensa_project/pipelines/**/.logs/
+
+# Local credentials/config
+condimensa_project/io_config.yaml
+pgadmin_servers.json
+
+# Generated data/models
+condimensa_project/data/forecasting_v3/raw/
+condimensa_project/data/forecasting_v3/processed/
+condimensa_project/data/forecasting_v3/reports/
+condimensa_project/data/forecasting_v3/models/
+*.joblib
+*.pkl
+*.pickle
+*.xlsx
+*.xls
+*.parquet
+
+# Local editor/system
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+project_type: standalone
+variables_dir: ~/.mage_data
+remote_variables_dir: s3://bucket/path_prefix
+
+help_improve_mage: true
+project_uuid: 38d934f22763406ba946ac591c777493

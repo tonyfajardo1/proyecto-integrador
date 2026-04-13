@@ -1,0 +1,78 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - entrenar_modelo_prediccion
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: preparar_datos_prediccion
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_loader
+  upstream_blocks: []
+  uuid: preparar_datos_prediccion
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - exportar_predicciones_dwh
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: entrenar_modelo_prediccion
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - preparar_datos_prediccion
+  uuid: entrenar_modelo_prediccion
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: exportar_predicciones_dwh
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - entrenar_modelo_prediccion
+  uuid: exportar_predicciones_dwh
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2026-02-20 23:40:00'
+data_integration: null
+description: 'Data Mining: Modelo predictivo con Random Forest. Predice probabilidad
+  de devolucion alta.'
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: 06_DM_Prediccion_Devoluciones
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- data-mining
+- random-forest
+- prediccion
+type: python
+uuid: dm_prediccion_devoluciones
+variables_dir: /home/src/condimensa_project
+widgets: []
