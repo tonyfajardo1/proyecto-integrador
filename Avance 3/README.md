@@ -24,8 +24,6 @@ Crear las copias locales correspondientes (`.env`, `io_config.yaml`, `pgadmin_se
 
 Por seguridad y tamano, quedan fuera del repositorio:
 
-- Documento final Word.
-- Proyecto local de Supabase.
 - Credenciales y configuraciones reales.
 - Bases locales de Mage.
 - Logs, cache y variables de ejecucion de Mage.
