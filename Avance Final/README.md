@@ -187,4 +187,3 @@ Este repositorio fue adaptado para publicacion academica y portafolio. Por esa r
 
 **Anthony Fajardo**  
 Proyecto final de tesis - Ingenieria en Ciencias de la Computacion  
-Caso aplicado: **CONDIMENSA**
