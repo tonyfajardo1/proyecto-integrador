@@ -1,4 +1,4 @@
-# Proyecto Integrador - Plataforma Analitica y Forecasting para CONDIMENSA
+# Proyecto Integrador - Plataforma Analitica y Forecasting 
 
 Proyecto final de tesis enfocado en integrar datos empresariales, construir una arquitectura analitica reproducible y desarrollar modelos de forecasting aplicados al caso real de CONDIMENSA.
 
