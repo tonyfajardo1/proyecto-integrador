@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+
+# Mage runtime files
+condimensa_project/mage-ai.db
+condimensa_project/.cache/
+condimensa_project/pipelines/**/.variables/
+
+# Local editor/system
+.DS_Store
+Thumbs.db

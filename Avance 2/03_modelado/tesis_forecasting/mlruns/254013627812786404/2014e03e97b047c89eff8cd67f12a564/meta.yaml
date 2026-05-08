@@ -1,0 +1,14 @@
+artifact_uri: file:///F:/proyecto-integrador/Avance 2/03_modelado/tesis_forecasting/mlruns/254013627812786404/2014e03e97b047c89eff8cd67f12a564/artifacts
+end_time: 1773981583567
+entry_point_name: ''
+experiment_id: '254013627812786404'
+lifecycle_stage: active
+run_id: 2014e03e97b047c89eff8cd67f12a564
+run_name: benchmark_forecasting_thesis
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773981583342
+status: 3
+tags: []
+user_id: Tony

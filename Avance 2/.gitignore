@@ -1,0 +1,48 @@
+# Local editor / helper folders
+.claude/
+.vscode/
+.DS_Store
+Thumbs.db
+nul
+NUL
+
+# Secrets and local configuration
+.env
+*.env
+io_config.yaml
+pgadmin_servers.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Mage local runtime
+**/mage-ai.db
+**/.cache/
+**/.logs/
+**/.variables/
+**/.file_versions/
+**/.ssh_tunnel/
+
+# Local build / temp artifacts
+tmp/
+temp/
+
+# Compressed bundles / local exports
+*.rar
+*.zip
+
+# Binary / local datasets
+*.xlsx
+*.xls
+*.csv
+*.parquet
+*.joblib
+*.pkl
+*.pickle
+
+# Raw business data and local loaders
+Quickbooks/
+Kronos/
