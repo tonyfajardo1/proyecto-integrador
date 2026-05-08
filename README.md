@@ -99,7 +99,6 @@ El valor de este repositorio no esta solo en la version final, sino tambien en l
 - como evoluciono la arquitectura;
 - como cambio el enfoque de modelado;
 - como se corrigieron problemas metodologicos;
-- y como se llego desde una version temprana hasta una solucion final defendible en tesis.
 
 ## Autor
 
