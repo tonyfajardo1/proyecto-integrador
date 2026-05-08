@@ -183,8 +183,6 @@ Este repositorio fue adaptado para publicacion academica y portafolio. Por esa r
 - artefactos temporales o de ejecucion local;
 - archivos pesados generados en corridas internas.
 
-Las imagenes incluidas en `docs/images` fueron tomadas de la tesis final y de la presentacion de sustentacion para documentar de forma visual la solucion implementada.
-
 ## Autor
 
 **Anthony Fajardo**  
