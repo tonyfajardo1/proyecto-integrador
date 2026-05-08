@@ -1,4 +1,4 @@
-# Proyecto Integrador - CONDIMENSA
+# Proyecto Integrador
 
 Repositorio principal del proyecto integrador desarrollado sobre el caso de CONDIMENSA.
 
