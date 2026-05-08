@@ -19,6 +19,11 @@ El objetivo de `Avance 2` fue pasar de una propuesta inicial a una version mas e
 
 ## Estructura principal
 
+En la version publica de este repositorio, `Avance 2` se concentra en dos directorios tecnicos principales:
+
+- `03_modelado`
+- `mage_condimensa2`
+
 ### `03_modelado`
 
 Contiene la parte de analitica y experimentacion del avance, incluyendo tres lineas de trabajo:
