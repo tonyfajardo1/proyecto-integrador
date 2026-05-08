@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "CONDIMENSA Data Warehouse",
+      "Group": "Servers",
+      "Host": "postgres_local",
+      "Port": 5432,
+      "MaintenanceDB": "condimensa_analytics",
+      "Username": "condimensa",
+      "SSLMode": "prefer"
+    }
+  }
+}

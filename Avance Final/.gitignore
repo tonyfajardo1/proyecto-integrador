@@ -1,0 +1,71 @@
+# Local assistants / editors
+.claude/
+.tmp_pg_helper/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Final documents and local evidence kept out of git
+DOCUMENTO_FINAL_WORD/
+Evidencias/
+Tesis_Final-signed.pdf
+tmp/
+tmp_pdf_imgs/
+tmp_ppt_media/
+data/
+
+# Supabase local runtime artifacts (keep function source code)
+supabase/.temp/
+supabase/supabase/
+
+# Secrets and local runtime configuration
+.env
+*.env
+io_config.yaml
+pgadmin_servers.json
+**/.ssh_tunnel/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Mage runtime files
+**/mage-ai.db
+**/.cache/
+**/.file_versions/
+**/.logs/
+**/.variables/
+
+# Generated models and binary artifacts
+*.joblib
+*.pkl
+*.pickle
+
+# Raw/generated business data
+*.xlsx
+*.xls
+*.csv
+*.parquet
+
+# Keep empty/example CSV inputs needed as templates
+!Modelado/forecasting_v3/data/input/*_template.csv
+!mage_condimensa2/condimensa_project/data/forecasting_v3/input/*_template.csv
+
+# Forecasting generated folders
+Modelado/forecasting_v3/Quickbooks/
+Modelado/forecasting_v3/data/processed/
+Modelado/forecasting_v3/reports/
+Modelado/forecasting_v3/models/
+Modelado/forecasting_tesis_v2/artifacts/
+
+mage_condimensa2/condimensa_project/data/forecasting_v3/raw/
+mage_condimensa2/condimensa_project/data/forecasting_v3/processed/
+mage_condimensa2/condimensa_project/data/forecasting_v3/reports/
+mage_condimensa2/condimensa_project/data/forecasting_v3/models/
