@@ -1,9 +1,8 @@
-"""
-Dashboard de Data Mining - CONDIMENSA
-Version 4.2 - 4 Pestanas (3 Preguntas Analiticas)
+"""Punto de entrada del dashboard final de CONDIMENSA.
 
-Autor: Proyecto Integrador
-Fecha: Marzo 2026
+La app expone las vistas que consumen la salida del ETL y de los pipelines
+analiticos del proyecto: resumen ejecutivo, cross-selling, anomalias e
+indicadores/pronostico de produccion.
 """
 import streamlit as st
 from config import APP_CONFIG, CSS_STYLES, PAGINAS

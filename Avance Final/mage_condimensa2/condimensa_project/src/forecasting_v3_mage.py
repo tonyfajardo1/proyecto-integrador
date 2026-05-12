@@ -1,3 +1,10 @@
+"""Helpers para ejecutar forecasting_v3 dentro de Mage.
+
+Centraliza nombres de datasets, expectativas minimas y utilidades de
+serializacion para que el pipeline de Mage se mantenga alineado con la version
+de modelado validada fuera de Mage.
+"""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -171,6 +178,11 @@ def validate_forecasting_inputs(
     dfs: dict[str, pd.DataFrame],
     expectations: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    """Valida que las tablas Silver cargadas por Mage se parezcan al baseline.
+
+    No intenta garantizar calidad perfecta, pero si detecta desalineaciones
+    obvias de cobertura, volumen o horizonte temporal antes de entrenar.
+    """
     expectations = expectations or FORECASTING_V3_DATASET_EXPECTATIONS
     summary = summarize_forecasting_inputs(dfs)
     issues: list[str] = []
@@ -202,6 +214,7 @@ def validate_forecasting_inputs(
 
 
 def assert_forecasting_inputs_aligned(dfs: dict[str, pd.DataFrame]) -> dict[str, Any]:
+    """Falla rapido si Mage recibio insumos incompatibles con forecasting_v3."""
     validation = validate_forecasting_inputs(dfs)
     if validation["issues"]:
         joined = "\n  - ".join(validation["issues"])
@@ -214,6 +227,7 @@ def assert_forecasting_inputs_aligned(dfs: dict[str, pd.DataFrame]) -> dict[str,
 
 
 def write_processed_outputs(config: dict[str, Any], dfs: dict[str, pd.DataFrame]) -> dict[str, int]:
+    """Materializa en disco las tablas que el modelado standalone espera leer."""
     counts: dict[str, int] = {}
     for key, (path_key, file_name) in PROCESSED_OUTPUTS.items():
         if key not in dfs:
@@ -227,6 +241,7 @@ def write_processed_outputs(config: dict[str, Any], dfs: dict[str, pd.DataFrame]
 
 
 def read_report_outputs(config: dict[str, Any]) -> dict[str, pd.DataFrame]:
+    """Carga reportes CSV generados por el forecasting para publicarlos en Gold."""
     reports_dir = Path(config["resolved_paths"]["reports_dir"])
     outputs: dict[str, pd.DataFrame] = {}
     for key, file_name in REPORT_OUTPUTS.items():

@@ -1,3 +1,5 @@
+"""Funciones auxiliares de limpieza y normalizacion para forecasting_v3."""
+
 from __future__ import annotations
 
 import hashlib

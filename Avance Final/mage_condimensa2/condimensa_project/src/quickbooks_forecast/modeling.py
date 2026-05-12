@@ -1,3 +1,9 @@
+"""Entrenamiento, validacion y prediccion del forecasting_v3.
+
+Replica dentro de Mage la misma logica de separacion temporal, CV, walk-forward
+y generacion de predicciones usada en el modelado standalone.
+"""
+
 from __future__ import annotations
 
 import os

@@ -1,3 +1,5 @@
+"""Lectura, plantillas y merge de variables exogenas controladas."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -156,6 +158,7 @@ def build_exogenous_templates(
     pp_monthly: pd.DataFrame,
     pp_products: pd.DataFrame,
 ) -> dict[str, pd.DataFrame]:
+    """Genera plantillas base para capturar exogenas historicas y futuras."""
     input_dir = _input_dir(config)
     input_dir.mkdir(parents=True, exist_ok=True)
     horizon = int(config["dataset"].get("forecast_horizon_months", 6))
@@ -199,6 +202,7 @@ def build_exogenous_templates(
 
 
 def write_exogenous_report(config: dict[str, Any]) -> str:
+    """Escribe una guia operativa para completar exogenas sin leakage."""
     reports_dir = config["resolved_paths"]["reports_dir"]
     calendar_path = _exogenous_path(config, "calendar_file", "variables_exogenas_calendario.csv")
     product_path = _exogenous_path(config, "product_file", "variables_exogenas_producto.csv")

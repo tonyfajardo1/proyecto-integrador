@@ -1,3 +1,11 @@
+"""Entrenamiento, validacion y prediccion del forecasting_v3.
+
+Este modulo concentra la parte metodologicamente mas sensible del proyecto:
+separacion temporal, seleccion del modelo por CV temporal, backtesting
+walk-forward, interpretabilidad y transformacion del forecast en una salida
+operativa.
+"""
+
 from __future__ import annotations
 
 import os
@@ -340,6 +348,12 @@ def _walk_forward_backtest(
     hgb_tuned_params: dict[str, Any],
     feature_columns: list[str],
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Simula uso historico real del modelo en multiples cortes temporales.
+
+    A diferencia del holdout final, aqui se reentrena y evalua el modelo varias
+    veces para medir estabilidad temporal y soportar reglas de automatizacion
+    por segmento operativo.
+    """
     folds = _walk_forward_folds(config, features)
     if not folds:
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
@@ -868,6 +882,11 @@ def _hgb_tuning_candidates(config: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _temporal_cv_folds(config: dict[str, Any], base_df: pd.DataFrame) -> list[tuple[pd.DataFrame, pd.DataFrame, pd.Timestamp, pd.Timestamp]]:
+    """Construye folds rolling para seleccionar modelos sin tocar el test.
+
+    Cada fold usa entrenamiento con meses anteriores y validacion con meses
+    posteriores, preservando la direccion temporal de la serie.
+    """
     cv_cfg = dict(config["model"].get("temporal_cv", {}))
     if not bool(cv_cfg.get("enabled", True)):
         return []
@@ -1095,6 +1114,12 @@ def _train_final_ml_models(
 
 
 def train_source(config: dict[str, Any], source: str) -> dict[str, Any]:
+    """Entrena una fuente (`PT` o `PP`) y persiste artefactos/modelos.
+
+    La funcion reserva primero el bloque de test, luego separa train y
+    validation dentro del historico restante. Con eso evita seleccionar modelos
+    usando el mismo bloque que luego se reporta como auditoria final.
+    """
     monthly, products = _load_processed(config, source)
     features = make_features(
         monthly,
@@ -1595,6 +1620,7 @@ def _add_decision_fields(
 
 
 def predict_source(config: dict[str, Any], source: str) -> pd.DataFrame:
+    """Genera pronosticos futuros y campos operativos para una fuente."""
     monthly, products = _load_processed(config, source)
     artifact_path = config["resolved_paths"]["models_dir"] / f"model_{source.lower()}.joblib"
     artifact = joblib.load(artifact_path)
@@ -1625,6 +1651,9 @@ def predict_source(config: dict[str, Any], source: str) -> pd.DataFrame:
         future["periodo"] = next_period
         future["target_qty"] = np.nan
         future = add_exogenous_features(config, future, source)
+        # Se extiende la historia con el siguiente mes vacio para recalcular
+        # features exactamente igual que en entrenamiento, pero usando solo
+        # historia observada y exogenas previas para ese horizonte.
         extended = pd.concat([history, future], ignore_index=True, sort=False)
         feature_frame = make_features(
             extended,

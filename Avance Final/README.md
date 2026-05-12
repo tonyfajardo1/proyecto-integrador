@@ -1,33 +1,43 @@
-# Proyecto Integrador - Plataforma Analitica y Forecasting 
+# Proyecto Integrador - Plataforma analitica y forecasting para CONDIMENSA
 
-Proyecto final de tesis enfocado en integrar datos empresariales, construir una arquitectura analitica reproducible y desarrollar modelos de forecasting aplicados al caso real de CONDIMENSA.
+Este directorio contiene la version final del proyecto de tesis. La idea central
+fue construir una solucion reproducible para integrar datos operativos,
+transformarlos con arquitectura Medallion y convertirlos en analitica util para
+negocio: dashboard, mineria de datos y forecasting de produccion.
 
-La version publicada en este repositorio concentra el codigo y la documentacion tecnica mas relevante del proyecto final:
+## Que hay en esta carpeta
 
-- pipelines ETL y dashboard en `Mage AI`;
-- evolucion del modelado desde `forecasting_tesis_v2` hasta `forecasting_v3`;
-- evidencia visual tomada de la tesis y de la presentacion final.
+- `mage_condimensa2/`: implementacion aplicada de ETL, dashboard y pipelines en
+  Mage AI.
+- `Modelado/`: version final del forecasting documentada y lista para revisar.
+- `docs/images/`: figuras y capturas tomadas de la tesis final y de la
+  presentacion de sustentacion.
 
 ## Objetivo del proyecto
 
-El proyecto busca resolver un problema comun en entornos operativos: la informacion se encuentra dispersa entre multiples fuentes, con procesos manuales para consolidar ventas, produccion e inventario, y con poca trazabilidad para apoyar decisiones de planificacion.
+Resolver un problema operativo real: consolidar informacion dispersa de ventas,
+produccion e inventario para apoyar decisiones de planificacion con trazabilidad
+y menor carga manual.
 
-La solucion propuesta integra:
+La solucion final integra:
 
-- refinamiento progresivo de datos con arquitectura `Bronze / Silver / Gold`;
-- analitica operativa para consumo en dashboard;
-- modelos de forecasting para productos terminados (`PT`) y productos/proceso (`PP`);
-- tecnicas complementarias de mineria de datos para anomalias y cross-selling.
+- refinamiento de datos en capas `Bronze / Silver / Gold`;
+- dashboard de consumo para negocio;
+- forecasting para productos terminados (`PT`) y productos/proceso (`PP`);
+- modulos de anomalias y cross-selling como analitica complementaria.
 
-## Alcance de esta version publica
+## Resultados que conviene mirar primero
 
-Esta version del proyecto fue depurada para publicacion academica y portafolio. Incluye principalmente:
-
-- codigo fuente de ETL y transformaciones en `mage_condimensa2`;
-- codigo, notebooks y configuracion de `Modelado/forecasting_tesis_v2` y `Modelado/forecasting_v3`;
-- imagenes y figuras documentales en `docs/images`.
-
-No incluye datos empresariales crudos, credenciales, artefactos pesados generados en ejecucion ni documentos sensibles firmados.
+- `forecasting_v3`:
+  - `PT`: `WAPE = 0.0580`
+  - `PP`: `WAPE = 0.0601`
+- modelo ganador:
+  - `RandomForest`, seleccionado con validacion temporal, no con el test final
+- controles metodologicos:
+  - exogenas previas
+  - CV temporal
+  - walk-forward
+  - test como auditoria
 
 ## Arquitectura general
 
@@ -38,97 +48,84 @@ flowchart LR
     A["Fuentes de negocio"] --> B["Bronze"]
     B --> C["Silver"]
     C --> D["Gold"]
-    C --> E["Forecasting_v3"]
+    C --> E["Forecasting v3"]
     C --> F["Apriori"]
     C --> G["Isolation Forest"]
-    D --> H["Dashboard de consumo"]
+    D --> H["Dashboard"]
     E --> H
     F --> H
     G --> H
 ```
 
+## Como recorrer el proyecto
+
+Si eres lector nuevo, esta es la ruta recomendada:
+
+1. Lee este archivo para ubicar el alcance general.
+2. Entra a [Modelado/README.md](Modelado/README.md) para ubicar la parte de
+   modelado final.
+3. Revisa [Modelado/forecasting_v3/README.md](Modelado/forecasting_v3/README.md)
+   para ver la version final del forecasting.
+4. Revisa [mage_condimensa2/README.md](mage_condimensa2/README.md) para entender
+   como el modelado se conecta con ETL y dashboard.
+5. Usa [docs/README.md](docs/README.md) para saber de donde sale cada imagen del
+   repositorio.
+
 ## Componentes principales
 
-### 1. `mage_condimensa2`
+### `mage_condimensa2`
 
-Contiene la capa aplicada de integracion y consumo operativo del proyecto:
+Contiene la capa mas cercana a operacion:
 
-- pipelines ETL en Mage AI;
-- transformaciones para capas Bronze, Silver y Gold;
-- pipelines de mineria de datos;
-- dashboard para visualizacion y apoyo a decision.
+- pipelines `etl_bronze`, `etl_silver` y `etl_gold`;
+- pipeline `forecasting_v3_quickbooks`;
+- pipelines de mineria de datos:
+  - `dm_reglas_asociacion`
+  - `dm_deteccion_anomalias`
+- dashboard Streamlit para consumo de negocio.
 
-Pipelines destacados dentro del proyecto:
+Mas detalle en [mage_condimensa2/README.md](mage_condimensa2/README.md).
 
-- `etl_bronze`
-- `etl_silver`
-- `etl_gold`
-- `forecasting_v3_quickbooks`
-- `dm_reglas_asociacion`
-- `dm_deteccion_anomalias`
+### `Modelado/forecasting_v3`
 
-### 2. `Modelado/forecasting_v3`
+Es la version final del pipeline de pronostico. Ahi estan:
 
-Contiene la version final del pipeline de pronostico desarrollado para la tesis, incluyendo:
-
-- preparacion de datasets PT y PP;
+- construccion de datasets PT y PP;
 - feature engineering temporal;
-- control anti-leakage;
-- validacion temporal;
+- exogenas controladas para evitar leakage;
+- comparacion de modelos con CV temporal;
 - backtesting walk-forward;
-- explicabilidad SHAP;
-- generacion de reportes y reglas operativas.
+- interpretabilidad SHAP;
+- reglas operativas y reportes.
 
-El modelo ganador final fue `RandomForest`, seleccionado por `WAPE` mediante validacion temporal cruzada.
+Mas detalle en
+[Modelado/forecasting_v3/README.md](Modelado/forecasting_v3/README.md).
 
-### 3. `Modelado/forecasting_tesis_v2`
+## Evidencia visual
 
-Se conserva la version previa del modelado como referencia comparativa dentro del proceso de tesis.
-
-Esto permite revisar:
-
-- el enfoque anterior del forecasting;
-- la comparacion metodologica entre `v2` y `v3`;
-- la justificacion de la mejora final obtenida en `forecasting_v3`.
-
-## Resultados principales
-
-### Forecasting final
-
-- **PT**: `WAPE = 0.0580`
-- **PP**: `WAPE = 0.0601`
-
-Estos resultados corresponden a la version final `forecasting_v3` presentada en la tesis y auditada con test final y evaluacion walk-forward.
+### Metricas finales del forecasting
 
 ![Metricas finales del forecasting](docs/images/forecasting-metrics.png)
 
 ### Seleccion del modelo
 
-La seleccion del modelo no se realizo con el conjunto de test. Se empleo validacion temporal cruzada para comparar candidatos y luego el test final se mantuvo como auditoria.
-
 ![Criterio de seleccion de modelos](docs/images/model-selection.png)
 
-### Explicabilidad
-
-Se utilizo SHAP para interpretar el modelo ganador y entender que variables pesaban mas en las predicciones globales de PT y PP.
+### SHAP global
 
 ![SHAP global](docs/images/shap-global.png)
 
-### Robustez temporal
-
-Ademas del holdout final, se realizo evaluacion walk-forward para medir estabilidad temporal y soportar reglas de automatizacion parcial por segmento operativo.
+### Walk-forward
 
 ![Resumen walk-forward](docs/images/walk-forward-summary.png)
 
-## Dashboard y consumo operativo
-
-El proyecto no termina en notebooks o scripts. Una parte importante del trabajo fue llevar la analitica a un formato consumible para negocio mediante dashboard y tablas de apoyo a la planificacion.
+### Dashboard y tabla de planificacion
 
 ![Dashboard ejecutivo](docs/images/dashboard-executive.png)
 
 ![Tabla de planificacion](docs/images/planning-table.png)
 
-## Tecnologias utilizadas
+## Tecnologias
 
 ### Datos e integracion
 
@@ -136,6 +133,7 @@ El proyecto no termina en notebooks o scripts. Una parte importante del trabajo 
 - PostgreSQL
 - SQL
 - Mage AI
+- Supabase
 
 ### Machine Learning y analitica
 
@@ -150,38 +148,28 @@ El proyecto no termina en notebooks o scripts. Una parte importante del trabajo 
 - Streamlit
 - Power BI
 
-## Estructura del repositorio
+## Estructura resumida
 
 ```text
 Avance Final/
-- mage_condimensa2/          # ETL, pipelines Mage AI y dashboard
-- Modelado/
-  - forecasting_tesis_v2/    # Iteracion previa usada como referencia comparativa
-  - forecasting_v3/          # Pipeline final de forecasting PT/PP
-- docs/
-  - images/                  # Figuras seleccionadas de tesis y presentacion
-- README.md
+|- mage_condimensa2/
+|- Modelado/
+|  |- forecasting_v3/
+|- docs/
+|  |- images/
+|- README.md
 ```
 
-## Como recorrer el proyecto
+## Que no incluye esta version publica
 
-Si quieres revisar el proyecto rapidamente, esta es la mejor ruta:
-
-1. Leer este `README.md` para entender el alcance general.
-2. Revisar `Modelado/forecasting_tesis_v2` para entender el punto de partida del modelado.
-3. Entrar a `Modelado/forecasting_v3` para revisar la version final del forecasting.
-4. Revisar `mage_condimensa2` para ver la implementacion de ETL, pipelines y dashboard.
-5. Revisar `docs/images` para ver las principales evidencias visuales de la solucion final.
-
-## Nota sobre privacidad y publicacion
-
-Este repositorio fue adaptado para publicacion academica y portafolio. Por esa razon se excluyeron:
+Para proteger informacion empresarial y mantener el repo portable, se excluyen:
 
 - datasets crudos o sensibles;
-- credenciales;
+- credenciales y configuraciones privadas;
+- artefactos pesados de ejecucion;
 - documentos firmados;
 - artefactos temporales o de ejecucion local;
-- archivos pesados generados en corridas internas.
+- archivos pesados generados en corridas internas y salidas temporales que pueden regenerarse.
 
 ## Autor
 

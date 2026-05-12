@@ -1,3 +1,9 @@
+"""Feature engineering temporal para el forecasting_v3.
+
+Replica la construccion de variables historicas del standalone para evitar
+desalineaciones entre el entrenamiento academico y el pipeline operativo.
+"""
+
 from __future__ import annotations
 
 import math

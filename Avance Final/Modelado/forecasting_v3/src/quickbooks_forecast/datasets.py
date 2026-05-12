@@ -1,3 +1,10 @@
+"""Construccion de datasets PT y PP para forecasting_v3.
+
+El modulo toma archivos curados de negocio, normaliza nombres y codigos, y
+genera dos salidas principales: series mensuales listas para modelado y tablas
+de productos con el contexto necesario para la etapa de features/decision.
+"""
+
 from __future__ import annotations
 
 from difflib import get_close_matches
@@ -49,6 +56,7 @@ def _has_child(item: str, all_items: set[str]) -> bool:
 
 
 def build_pt_catalog(config: dict[str, Any]) -> pd.DataFrame:
+    """Limpia y deduplica el catalogo maestro de productos PT."""
     path = config["resolved_paths"]["catalog"]
     sheet = config["sheets"]["catalog"]
     df = pd.read_excel(path, sheet_name=sheet)
@@ -312,6 +320,7 @@ def summarize_products(
 
 
 def build_pt_dataset(config: dict[str, Any], catalog: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Construye la serie mensual PT desde ventas y la cruza con el catalogo."""
     path = config["resolved_paths"]["sales"]
     sheet = config["sheets"]["sales"]
     df = pd.read_excel(path, sheet_name=sheet)
@@ -481,6 +490,12 @@ def _load_pp_categories(config: dict[str, Any]) -> dict[str, str]:
 
 
 def build_pp_dataset(config: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Construye la serie mensual PP desde produccion historica.
+
+    La variable objetivo usa prioridad `fabricada > liberada > planificada` para
+    conservar la mejor senal disponible por fila y dejar trazabilidad cuando se
+    recurrieron a proxies.
+    """
     path = config["resolved_paths"]["production"]
     sheet = config["sheets"]["production"]
     df = pd.read_excel(path, sheet_name=sheet)
@@ -647,6 +662,7 @@ def write_dataset_summary(
 
 
 def build_all_datasets(config: dict[str, Any]) -> dict[str, pd.DataFrame]:
+    """Genera todos los datasets persistidos que usa forecasting_v3."""
     ensure_output_dirs(config)
     processed_dir = config["resolved_paths"]["processed_dir"]
 

@@ -1,3 +1,5 @@
+"""Benchmark humano y evaluacion operativa complementaria del forecasting."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -193,6 +195,7 @@ def _human_plan_benchmark(config: dict[str, Any] | None) -> pd.DataFrame:
 
 
 def build_operational_evaluation(config: dict[str, Any] | None = None) -> dict[str, pd.DataFrame | str]:
+    """Construye benchmark humano y reportes de valor operativo del modelo."""
     reports_dir = _reports_dir(config)
     reports_dir.mkdir(parents=True, exist_ok=True)
 

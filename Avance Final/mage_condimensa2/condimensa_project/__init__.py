@@ -1,1 +1,1 @@
-# Condimensa Data Mining Project
+"""Paquete raiz del proyecto Mage usado en el proyecto integrador."""

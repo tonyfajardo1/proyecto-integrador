@@ -1,3 +1,11 @@
+"""Feature engineering temporal para el forecasting_v3.
+
+Este modulo construye variables historicas y de perfil por producto sin usar
+informacion futura del periodo objetivo. La regla metodologica clave es que
+lags, rolling windows y perfiles de actividad siempre se calculan con historia
+disponible hasta t-1.
+"""
+
 from __future__ import annotations
 
 import math
@@ -95,6 +103,12 @@ def _historical_profile_by_product(
     seasonal_top_3_month_share: float,
     seasonal_max_active_months_per_year: int,
 ) -> pd.DataFrame:
+    """Construye estado e indicadores estacionales fila a fila por producto.
+
+    El perfil se recalcula cronologicamente para que cada fila solo vea la
+    historia acumulada hasta el periodo anterior, evitando leakage en atributos
+    como `estado_producto`, `es_estacional` o `ultima_actividad`.
+    """
     profile_frames = []
 
     for _, group in df.groupby("product_id", sort=False):
@@ -165,6 +179,16 @@ def make_features(
     seasonal_top_3_month_share: float = 0.60,
     seasonal_max_active_months_per_year: int = 4,
 ) -> pd.DataFrame:
+    """Genera el set final de features usado por los modelos ML.
+
+    Parameters
+    ----------
+    monthly:
+        Serie mensual por producto ya homogenizada y con `target_qty`.
+    products:
+        Catalogo/perfil de productos. Se mantiene por compatibilidad aunque la
+        logica principal de perfiles se recalcula desde `monthly`.
+    """
     del products
     df = monthly.copy()
     df["periodo"] = pd.to_datetime(df["periodo"])
@@ -199,6 +223,8 @@ def make_features(
         df[f"lag_{lag}"] = grouped.shift(lag)
 
     for window in ROLLING_WINDOWS:
+        # Las ventanas moviles se calculan despues de hacer shift(1) para que
+        # el periodo t no se use a si mismo al predecir target_qty(t).
         df[f"rolling_mean_{window}"] = grouped.transform(
             lambda series: series.shift(1).rolling(window, min_periods=1).mean()
         )

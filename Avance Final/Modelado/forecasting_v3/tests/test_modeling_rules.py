@@ -1,3 +1,5 @@
+"""Pruebas de reglas operativas y consistencia del forecasting final."""
+
 from __future__ import annotations
 
 import sys

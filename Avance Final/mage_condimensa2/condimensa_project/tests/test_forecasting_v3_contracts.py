@@ -1,3 +1,5 @@
+"""Pruebas de contrato para la integracion de forecasting_v3 en Mage."""
+
 from __future__ import annotations
 
 import sys

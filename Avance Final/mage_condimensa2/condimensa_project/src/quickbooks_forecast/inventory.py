@@ -1,3 +1,5 @@
+"""Cruce de stock actual y ajustes de inventario para el forecasting."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -151,6 +153,7 @@ def _stock_match_keys(stock: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_current_stock(config: dict[str, Any], source: str, products: pd.DataFrame) -> pd.DataFrame:
+    """Empata productos del modelo con el stock actual disponible en costos."""
     stock = _load_costs_stock(config)
     base = products[["product_id"]].drop_duplicates().copy()
     if stock.empty:
@@ -272,6 +275,7 @@ def _project_inventory_for_product(group: pd.DataFrame) -> pd.DataFrame:
 
 
 def apply_inventory_adjustments(config: dict[str, Any], source: str, predictions: pd.DataFrame) -> pd.DataFrame:
+    """Convierte forecast de demanda en una sugerencia ajustada por inventario."""
     processed_dir = config["resolved_paths"]["processed_dir"]
     products = pd.read_csv(processed_dir / f"{source.lower()}_productos_model.csv")
     stock = build_current_stock(config, source, products)

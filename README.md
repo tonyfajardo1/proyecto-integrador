@@ -49,7 +49,6 @@ Esta es la carpeta **mas importante del repositorio** si quieres revisar el resu
 
 - `mage_condimensa2` con pipelines ETL, dashboard y modulos de analitica;
 - `Modelado/forecasting_v3` con el pipeline final de forecasting;
-- `Modelado/forecasting_tesis_v2` como referencia comparativa;
 - `docs/images` con figuras tomadas de la tesis y la presentacion final;
 - documentacion publica adaptada para GitHub.
 

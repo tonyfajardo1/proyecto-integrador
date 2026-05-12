@@ -1,3 +1,9 @@
+"""Construccion de datasets PT y PP para forecasting_v3.
+
+Replica la logica del proyecto standalone para que Mage y el modelado validado
+usen los mismos criterios de limpieza, homologacion y salida mensual.
+"""
+
 from __future__ import annotations
 
 from difflib import get_close_matches

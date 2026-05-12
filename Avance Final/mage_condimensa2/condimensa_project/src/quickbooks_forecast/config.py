@@ -1,3 +1,5 @@
+"""Carga de configuracion y resolucion de rutas del proyecto standalone."""
+
 from __future__ import annotations
 
 from copy import deepcopy
@@ -42,5 +44,6 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
 
 
 def ensure_output_dirs(config: dict[str, Any]) -> None:
+    """Crea las carpetas de salida necesarias antes de persistir artefactos."""
     for key in ["interim_dir", "processed_dir", "models_dir", "reports_dir"]:
         config["resolved_paths"][key].mkdir(parents=True, exist_ok=True)

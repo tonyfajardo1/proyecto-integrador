@@ -1,3 +1,5 @@
+"""Salidas auxiliares para revision experta y soporte a decision."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -31,6 +33,7 @@ def _load_products(config: dict[str, Any]) -> pd.DataFrame:
 
 
 def build_stock_policy_template(config: dict[str, Any]) -> pd.DataFrame:
+    """Crea la plantilla editable de stock minimo/maximo por producto."""
     processed_dir = config["resolved_paths"]["processed_dir"]
     pt_products = pd.read_csv(processed_dir / "pt_productos_model.csv")
     pp_products = pd.read_csv(processed_dir / "pp_productos_model.csv")
@@ -61,6 +64,7 @@ def build_stock_policy_template(config: dict[str, Any]) -> pd.DataFrame:
 
 
 def build_expert_validation_template(config: dict[str, Any], top_n: int = 120) -> pd.DataFrame:
+    """Prioriza productos a revisar manualmente en el siguiente horizonte."""
     reports_dir = config["resolved_paths"]["reports_dir"]
     predictions = _load_predictions(config)
     high_error = pd.read_csv(reports_dir / "high_error_products_all.csv")
@@ -122,6 +126,7 @@ def build_expert_validation_template(config: dict[str, Any], top_n: int = 120) -
 
 
 def build_decision_report(config: dict[str, Any]) -> str:
+    """Resume como usar el forecast dentro del proceso de decision."""
     reports_dir = config["resolved_paths"]["reports_dir"]
     comparison = pd.read_csv(reports_dir / "model_comparison_all.csv")
     pt_best = comparison[comparison["source"].eq("PT")].sort_values("wape").iloc[0]
@@ -136,20 +141,20 @@ def build_decision_report(config: dict[str, Any]) -> str:
 - La `confianza_prediccion` se calcula combinando error historico del producto, estabilidad del segmento en walk-forward y penalizaciones por estacionalidad o revision prioritaria.
 - Las predicciones incorporan stock actual desde `Quickbooks/Costos.xlsx` para calcular una cantidad operativa ajustada.
 - Pueden usarse como decision operativa para productos con confianza media/alta y sin bandera `requiere_revision`.
-- Los productos con confianza baja, alta estacionalidad o error alto deben revisarse antes de convertirlos en ordenes finales.
+- Los productos con confianza baja, alta estacionalidad o error alto se marcan para revision antes de convertirse en ordenes finales.
 
 ## Comparacion de modelos
 
 - Mejor modelo PT por WAPE test: {pt_best['model_name']} con WAPE {pt_best['wape']:.3f}.
 - Mejor modelo PP por WAPE test: {pp_best['model_name']} con WAPE {pp_best['wape']:.3f}.
-- Revisar `reports/model_comparison_all.csv` para ver todos los modelos ML evaluados.
-- Revisar `reports/validation_model_comparison_all.csv` para ver la comparacion en validacion.
-- Revisar `reports/hgb_tuning_all.csv` para ver el tuning de Gradient Boosting.
-- Revisar `reports/exogenous_variables_plan.md` para completar variables exogenas reales y medir mejora.
+- `reports/model_comparison_all.csv` resume todos los modelos ML evaluados.
+- `reports/validation_model_comparison_all.csv` documenta la comparacion equivalente en validacion.
+- `reports/hgb_tuning_all.csv` registra el tuning de Gradient Boosting.
+- `reports/exogenous_variables_plan.md` describe las variables exogenas contempladas dentro del proyecto.
 
 ## Validacion con expertos
 
-Usar `data/input/validacion_expertos_template.csv` para que produccion/comercial indique:
+`data/input/validacion_expertos_template.csv` sirve para registrar la retroalimentacion de produccion/comercial sobre:
 
 - si la prediccion parece razonable,
 - si hay promociones o pedidos especiales,
@@ -158,7 +163,7 @@ Usar `data/input/validacion_expertos_template.csv` para que produccion/comercial
 
 ## Variables exogenas reales
 
-Para buscar una mejora fuerte, completar:
+Las exogenas por calendario y por producto se documentan en:
 
 - `data/input/variables_exogenas_calendario.csv`: dias laborables, feriados, temporada, promociones generales y variacion de precio general.
 - `data/input/variables_exogenas_producto.csv`: pedidos confirmados, preventa, promociones por producto, clientes grandes, cambios de PVP, riesgo de quiebre, disponibilidad de materia prima y ajustes comerciales conocidos antes del mes.
@@ -167,7 +172,7 @@ Estas variables deben estar disponibles historicamente para train/validacion/tes
 
 ## Stock minimo y maximo
 
-Usar `data/input/stock_min_max_template.csv` para completar:
+`data/input/stock_min_max_template.csv` concentra los parametros operativos de inventario:
 
 - stock actual,
 - stock minimo,
@@ -175,7 +180,7 @@ Usar `data/input/stock_min_max_template.csv` para completar:
 - lead time,
 - lote minimo de produccion.
 
-Cuando esos datos esten completos, el siguiente paso sera calcular una cantidad sugerida ajustada:
+Con esos datos, la cantidad sugerida ajustada sigue la relacion:
 
 `cantidad_a_producir = prediccion + stock_minimo - stock_actual`
 
@@ -185,7 +190,7 @@ El pipeline ya descuenta `stock_actual` desde la columna `On Hand` de `Costos.xl
 
 ## Recomendacion
 
-Usar las predicciones como decision operativa solo cuando `confianza_prediccion` sea media/alta y `requiere_revision` sea falso. Primero revisar productos con error alto en `reports/high_error_products_all.csv`.
+Las predicciones pueden usarse como soporte operativo cuando `confianza_prediccion` es media/alta y `requiere_revision` es falso. `reports/high_error_products_all.csv` identifica los productos con mayor error historico para auditoria focalizada.
 """
     path = reports_dir / "decision_support_plan.md"
     path.write_text(text, encoding="utf-8")
@@ -193,6 +198,7 @@ Usar las predicciones como decision operativa solo cuando `confianza_prediccion`
 
 
 def build_decision_templates(config: dict[str, Any]) -> dict[str, pd.DataFrame | str]:
+    """Materializa todas las salidas de soporte para la etapa operativa."""
     stock = build_stock_policy_template(config)
     validation = build_expert_validation_template(config)
     report = build_decision_report(config)
