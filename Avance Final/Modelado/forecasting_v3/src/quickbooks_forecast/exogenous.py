@@ -228,18 +228,3 @@ Cada valor debe ser conocido antes de iniciar el mes que se quiere predecir. No 
 
 {", ".join(PRODUCT_EXOGENOUS_FEATURES)}
 
-## Estado actual de captura
-
-- Filas calendario con informacion no cero: {calendar_nonzero}
-- Filas producto con informacion no cero: {product_nonzero}
-
-## Como medir la mejora
-
-1. Completar historico real de variables exogenas para los meses de train, validacion y test.
-2. Completar variables futuras conocidas para el horizonte de prediccion.
-3. Ejecutar `python3 -B scripts/run_all.py`.
-4. Comparar `reports/model_comparison_all.csv` contra la version anterior.
-"""
-    path = reports_dir / "exogenous_variables_plan.md"
-    path.write_text(text, encoding="utf-8")
-    return text
