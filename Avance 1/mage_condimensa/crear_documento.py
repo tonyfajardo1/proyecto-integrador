@@ -61,13 +61,13 @@ services:
       - QUICKBOOKS_PORT=6543
       - QUICKBOOKS_DB=postgres
       - QUICKBOOKS_USER=postgres.your-quickbooks-project-ref
-      - QUICKBOOKS_PASSWORD=REDACTED_SECRET
+      - QUICKBOOKS_PASSWORD=change_me
       - QUICKBOOKS_SCHEMA=quickbooks
       - KRONOS_HOST=your-kronos-host.supabase.com
       - KRONOS_PORT=6543
       - KRONOS_DB=postgres
       - KRONOS_USER=postgres.your-kronos-project-ref
-      - KRONOS_PASSWORD=REDACTED_SECRET
+      - KRONOS_PASSWORD=change_me
       - KRONOS_SCHEMA=kronos
     ports:
       - "6789:6789"
@@ -79,7 +79,7 @@ services:
     container_name: condimensa_dwh
     environment:
       - POSTGRES_USER=condimensa
-      - POSTGRES_PASSWORD=REDACTED_LOCAL_DB_PASSWORD
+      - POSTGRES_PASSWORD=change_me
       - POSTGRES_DB=condimensa_analytics
     ports:
       - "5433:5432"
@@ -89,7 +89,7 @@ services:
     container_name: condimensa_pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@condimensa.com
-      - PGADMIN_DEFAULT_PASSWORD=REDACTED_PGADMIN_PASSWORD
+      - PGADMIN_DEFAULT_PASSWORD=change_me
     ports:
       - "5050:80"
 
@@ -384,8 +384,8 @@ data = [
     ['Servicio', 'URL', 'Credenciales'],
     ['Mage AI', 'http://localhost:6789', '-'],
     ['Dashboard', 'http://localhost:8501', '-'],
-    ['pgAdmin', 'http://localhost:5050', 'admin@condimensa.com / REDACTED_PGADMIN_PASSWORD'],
-    ['PostgreSQL', 'localhost:5433', 'condimensa / REDACTED_LOCAL_DB_PASSWORD'],
+    ['pgAdmin', 'http://localhost:5050', 'admin@condimensa.com / change_me'],
+    ['PostgreSQL', 'localhost:5433', 'condimensa / change_me'],
 ]
 for i, row in enumerate(data):
     for j, cell in enumerate(row):

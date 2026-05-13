@@ -11,7 +11,7 @@ quickbooks:
   POSTGRES_DBNAME: postgres
   POSTGRES_SCHEMA: quickbooks
   POSTGRES_USER: postgres.your-quickbooks-project-ref
-  POSTGRES_PASSWORD: "{{ env_var('QUICKBOOKS_PASSWORD', 'REDACTED_SECRET') }}"
+  POSTGRES_PASSWORD: "{{ env_var('QUICKBOOKS_PASSWORD', 'change_me') }}"
   POSTGRES_HOST: your-quickbooks-host.supabase.com
   POSTGRES_PORT: 6543
 
@@ -23,7 +23,7 @@ kronos:
   POSTGRES_DBNAME: postgres
   POSTGRES_SCHEMA: kronos
   POSTGRES_USER: postgres.your-kronos-project-ref
-  POSTGRES_PASSWORD: "{{ env_var('KRONOS_PASSWORD', 'REDACTED_SECRET') }}"
+  POSTGRES_PASSWORD: "{{ env_var('KRONOS_PASSWORD', 'change_me') }}"
   POSTGRES_HOST: your-kronos-host.supabase.com
   POSTGRES_PORT: 6543
 
@@ -35,6 +35,6 @@ local_dwh:
   POSTGRES_DBNAME: condimensa_analytics
   POSTGRES_SCHEMA: public
   POSTGRES_USER: condimensa
-  POSTGRES_PASSWORD: REDACTED_LOCAL_DB_PASSWORD
+  POSTGRES_PASSWORD: change_me
   POSTGRES_HOST: postgres_local
   POSTGRES_PORT: 5432

@@ -1,5 +1,5 @@
 import psycopg2
-DB_CONFIG = {'host': 'localhost', 'port': 5433, 'database': 'condimensa_analytics', 'user': 'condimensa', 'password': 'REDACTED_LOCAL_DB_PASSWORD'}
+DB_CONFIG = {'host': 'localhost', 'port': 5433, 'database': 'condimensa_analytics', 'user': 'condimensa', 'password': 'change_me'}
 conn = psycopg2.connect(**DB_CONFIG)
 cur = conn.cursor()
 cur.execute('DROP TABLE IF EXISTS gold.metricas_productos CASCADE')

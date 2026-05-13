@@ -57,7 +57,7 @@ services:
     container_name: condimensa_pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@condimensa.com
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-REDACTED_PGADMIN_PASSWORD}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-change_me}
       - PGADMIN_CONFIG_SERVER_MODE=False
     ports:
       - "5050:80"

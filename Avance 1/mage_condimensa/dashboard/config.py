@@ -9,7 +9,7 @@ DB_CONFIG = {
     'port': os.getenv('DB_PORT', 5432),
     'dbname': os.getenv('DB_NAME', 'condimensa_analytics'),
     'user': os.getenv('DB_USER', 'condimensa'),
-    'password': os.getenv('DB_PASSWORD', 'REDACTED_LOCAL_DB_PASSWORD')
+    'password': os.getenv('DB_PASSWORD', 'change_me')
 }
 
 # Configuracion de la aplicacion

@@ -80,7 +80,7 @@ Para DWH local (asociacion/anomalias):
 - `DWH_PORT` (default: `5433`)
 - `DWH_DB` (default: `condimensa_analytics`)
 - `DWH_USER` (default: `condimensa`)
-- `DWH_PASSWORD` (default: `REDACTED_LOCAL_DB_PASSWORD`)
+- `DWH_PASSWORD` (default: `change_me`)
 
 Para QuickBooks (pronostico):
 

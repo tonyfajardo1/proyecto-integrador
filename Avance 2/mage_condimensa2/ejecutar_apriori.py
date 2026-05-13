@@ -4,7 +4,7 @@ from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 from psycopg2.extras import execute_values
 
-DB_CONFIG = {'host': 'localhost', 'port': 5433, 'database': 'condimensa_analytics', 'user': 'condimensa', 'password': 'REDACTED_LOCAL_DB_PASSWORD'}
+DB_CONFIG = {'host': 'localhost', 'port': 5433, 'database': 'condimensa_analytics', 'user': 'condimensa', 'password': 'change_me'}
 
 print('=== Generando reglas de asociacion (Apriori) ===')
 

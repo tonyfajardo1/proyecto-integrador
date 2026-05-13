@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy as np
 
 DB = {'host': 'localhost', 'port': 5433, 'database': 'condimensa_analytics',
-      'user': 'condimensa', 'password': 'REDACTED_LOCAL_DB_PASSWORD'}
+      'user': 'condimensa', 'password': 'change_me'}
 
 def main():
     print("="*70)

@@ -32,13 +32,13 @@ kronos = psycopg2.connect(
     host='your-kronos-host.supabase.com',
     port=6543, dbname='postgres',
     user='postgres.your-kronos-project-ref',
-    password='REDACTED_SECRET'
+    password='change_me'
 )
 
 dwh = psycopg2.connect(
     host='postgres_local', port=5432,
     dbname='condimensa_analytics',
-    user='condimensa', password='REDACTED_LOCAL_DB_PASSWORD'
+    user='condimensa', password='change_me'
 )
 cur = dwh.cursor()
 

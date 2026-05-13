@@ -42,7 +42,7 @@ def _connect_dwh():
         port=int(_env("DWH_PORT", "5433")),
         dbname=_env("DWH_DB", "condimensa_analytics"),
         user=_env("DWH_USER", "condimensa"),
-        password=_env("DWH_PASSWORD", "REDACTED_LOCAL_DB_PASSWORD"),
+        password=_env("DWH_PASSWORD", "change_me"),
     )
 
 

@@ -23,7 +23,7 @@ print("=" * 60)
 dwh_conn = psycopg2.connect(
     host='postgres_local', port=5432,
     dbname='condimensa_analytics',
-    user='condimensa', password='REDACTED_LOCAL_DB_PASSWORD'
+    user='condimensa', password='change_me'
 )
 cur = dwh_conn.cursor()
 

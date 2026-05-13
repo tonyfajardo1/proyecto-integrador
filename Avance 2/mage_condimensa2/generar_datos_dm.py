@@ -39,11 +39,11 @@ def candidate_configs() -> Iterable[DbConfig]:
             port=int(env_port or "5432"),
             database=os.getenv("DB_NAME", "condimensa_analytics"),
             user=os.getenv("DB_USER", "condimensa"),
-            password=os.getenv("DB_PASSWORD", "REDACTED_LOCAL_DB_PASSWORD"),
+            password=os.getenv("DB_PASSWORD", "change_me"),
         )
-    yield DbConfig("localhost", 5433, "condimensa_analytics", "condimensa", "REDACTED_LOCAL_DB_PASSWORD")
-    yield DbConfig("condimensa_dwh", 5432, "condimensa_analytics", "condimensa", "REDACTED_LOCAL_DB_PASSWORD")
-    yield DbConfig("postgres_local", 5432, "condimensa_analytics", "condimensa", "REDACTED_LOCAL_DB_PASSWORD")
+    yield DbConfig("localhost", 5433, "condimensa_analytics", "condimensa", "change_me")
+    yield DbConfig("condimensa_dwh", 5432, "condimensa_analytics", "condimensa", "change_me")
+    yield DbConfig("postgres_local", 5432, "condimensa_analytics", "condimensa", "change_me")
 
 
 def connect_db():

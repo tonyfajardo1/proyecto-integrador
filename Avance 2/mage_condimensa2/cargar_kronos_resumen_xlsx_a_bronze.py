@@ -125,7 +125,7 @@ def cargar_resumen_kronos(file_path: Path):
         port=5433,
         dbname="condimensa_analytics",
         user="condimensa",
-        password=os.getenv("DB_PASSWORD", "REDACTED_LOCAL_DB_PASSWORD"),
+        password=os.getenv("DB_PASSWORD", "change_me"),
     )
     conn.autocommit = True
 

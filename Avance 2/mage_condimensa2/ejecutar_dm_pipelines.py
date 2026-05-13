@@ -15,7 +15,7 @@ DB_CONFIG = {
     'port': 5433,
     'database': 'condimensa_analytics',
     'user': 'condimensa',
-    'password': 'REDACTED_LOCAL_DB_PASSWORD'
+    'password': 'change_me'
 }
 
 
