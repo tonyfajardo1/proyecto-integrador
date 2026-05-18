@@ -146,7 +146,6 @@ Mas detalle en
 ### Visualizacion
 
 - Streamlit
-- Power BI
 
 ## Estructura resumida
 
